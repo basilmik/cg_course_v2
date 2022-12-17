@@ -1,165 +1,66 @@
-#include "../libwinbgi/src/graphics.h"
+#pragma once
+#include "point.h"
 #include "stdio.h"
-#include "piramida.h"
-#include "table.h"
+#include "math.h"
+#include "../libwinbgi/src/graphics.h"
 
-
-
-int main()
+class table
 {
-	initwindow(1300, 700);
-	piramida p1(2, 3, 4, 5, (char*)"A",(char*)"B", (char*)"C", (char*)"D");
-	piramida p2(9, 10, 11, 12, (char*)"E", (char*)"F", (char*)"G", (char*)"H");
-	table t;
-	t.paint();
+	point* A, * B, * C, * D;
 
-	p1.scale(0.2, 0.2, 0.2);
-	p1.rotate(10, 0);
-	p2.scale(0.2, 0.2, 0.2);
-	p2.move(400, 100, 0);
-	p1.paint();
-	p2.paint();
 
-	char sym;
-	while (true)
+	void color_quad()
 	{
-		sym = getch();
-		switch (sym)
+		float k1 = (D->y() - A->y()) / (D->x() - A->x());
+		float b1 = k1 * A->x() - A->y();
+
+		float z1 = k1 * D->x() - b1;
+		float z2 = k1 * A->x() - b1;
+		int xd = D->x() - A->x();
+
+		for (int x = D->x(); x < C->x(); x++)
 		{
-		case '1':
-			p1.moveS(10, 0, 0);
-			p2.moveS(10, 0, 0);
-			break;
-		case '2':
-			p1.moveS(-10, 0, 0);
-			p2.moveS(-10, 0, 0);
-			break;
-		case '3':
-			p1.moveS(0, 10, 0);
-			p2.moveS(0, 10, 0);
-			break;
-		case '4':
-			p1.moveS(0, -10, 0);
-			p2.moveS(0, -10, 0);
-			break;
-		case '5':
-			p1.moveS(0, 0, 10);
-			p2.moveS(0, 0, 10);
-			break;
-		case '6':
-			p1.moveS(0, 0, -10);
-			p2.moveS(0, 0, -10);
-			break;
-
-		case 'r':
-			p1.rotate(10, 0);
-			break;
-		case 'f':
-			p1.rotate(-10, 0);
-			break;
-		
-		case 't':
-			p1.rotate(10, 1);
-			break;
-		case 'g':
-			p1.rotate(-10, 1);
-			break;
-
-		case 'c':
-			p1.rotate(10, 2);
-			break;
-		case 'v':
-			p1.rotate(-10, 2);
-			break;
-
-		case 'z':
-			p1.scale(2, 2, 2);
-			break;
-		case 'x':
-			p1.scale(0.5, 0.5, 0.5);
-			break;
-
-		case 'w':
-			p1.move(0, -10, 0);
-			break;
-		case 's':
-			p1.move(0, 10,0);
-			break;
-		case 'a':
-			p1.move(-10, 0, 0);
-			break;
-		case 'd':
-			p1.move(10, 0, 0);
-			break;
-		case 'q':
-			p1.move(0, 0, 10);
-			break;
-		case 'e':
-			p1.move(0, 0, -10);
-			break;
-		
-
-
-		case 'o':
-			p2.rotate(10, 0);
-			break;
-		case 'l':
-			p2.rotate(-10, 0);
-			break;
-
-		case 'p':
-			p2.rotate(10, 1);
-			break;
-		case ';':
-			p2.rotate(-10, 1);
-			break;
-
-		case 'm':
-			p2.rotate(10, 2);
-			break;
-		case ',':
-			p2.rotate(-10, 2);
-			break;
-
-		case 'b':
-			p2.scale(2, 2, 2);
-			break;
-		case 'n':
-			p2.scale(0.5, 0.5, 0.5);
-			break;
-
-		case 'u':
-			p2.move(0, -10, 0);
-			break;
-		case 'j':
-			p2.move(0, 10, 0);
-			break;
-		case 'h':
-			p2.move(-10, 0, 0);
-			break;
-		case 'k':
-			p2.move(10, 0, 0);
-			break;
-		case 'y':
-			p2.move(0, 0, 10);
-			break;
-		case 'i':
-			p2.move(0, 0, -10);
-			break;
-
-
-		case '0':
-			closegraph();
-			return 0;
-
+			if ((int)x % 1 == 0 && (int)x % 3 == 0 && (int)x % 5 == 0)
+			{
+				if ((int)x % 2 == 0 && (int)x % 4 == 0)
+					setcolor(6);
+				else
+					setcolor(8);
+				line(x, z1, x - xd, z2);
+			}
 		}
-		clearviewport();
-		t.paint();
-		p1.paint();
-		p2.paint();
-
 	}
-	getch();
-	closegraph();
-	return 0;
-}
+
+
+public:
+
+	table()
+	{
+		A = new point;
+		A->set(-300, 400, -400, 1);
+		A->rotate(35, X);
+		A->rotate(-35, Y);
+
+		B = new point;
+		B->set(1200, 400, -400, 1);
+		B->rotate(35, X);
+		B->rotate(-35, Y);
+
+		C = new point;
+		C->set(1200, 400, 500, 1);
+		C->rotate(35, X);
+		C->rotate(-35, Y);
+
+		D = new point;
+		D->set(-300, 400, 500, 1);
+		D->rotate(35, X);
+		D->rotate(-35, Y);
+	}
+
+
+	void paint()
+	{
+		color_quad();
+	}
+
+};

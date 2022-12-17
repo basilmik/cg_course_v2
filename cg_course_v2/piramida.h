@@ -18,7 +18,7 @@ class piramida
 	point* C;
 	point* D;
 	point* S;
-	
+
 	double midX, midY, midZ;
 
 	point* operator[](int i)
@@ -65,7 +65,7 @@ class piramida
 		for (int i = 0; i < V_NUM; i++)
 			(*this)[i]->rotate(_phi, axis);
 	}
-	
+
 	void colour(int fill_c, int x_isx, int y_isx)
 	{
 		if (x_isx == 0 || y_isx == 0)
@@ -83,14 +83,12 @@ class piramida
 
 	void project()
 	{
-		rotate(30, X);
-		rotate(30, Y);
+		rotate_each(30, X);
 	}
 
 	void unproject()
 	{
-		rotate(-30, Y);
-		rotate(-30, X);
+		rotate_each(-30, X);
 	}
 
 	void painters_alg()
@@ -119,10 +117,10 @@ class piramida
 			else idx++;
 		}
 
-		
+
 		for (int i = 0; i < 4; i++)
 		{
-			sides[sorted_idx[i]]->draw();
+			sides[sorted_idx[i]]->draw(i);
 			switch (sorted_idx[i])
 			{
 			case 0:
@@ -153,14 +151,13 @@ class piramida
 	void upd_sides()
 	{
 		sides[0]->set(A, B, C);
-		sides[1]->set(A, B, D);	
+		sides[1]->set(A, B, D);
 		sides[2]->set(D, B, C);
 		sides[3]->set(A, D, C);
 	}
 
 	void upd_shadow()
 	{
-
 		double y = 400;
 
 		double t = (y - A->y()) / (S->y() - A->y());
@@ -184,34 +181,15 @@ class piramida
 		z = (S->z() - D->z()) * t + D->z();
 		point* D_ = new point; D_->set(x, y, z, 1);
 
-
-		A_->rotate(35, X);
-		B_->rotate(35, X);
-		C_->rotate(35, X);
-		D_->rotate(35, X);
-
-		A_->rotate(-35, Y);
-		B_->rotate(-35, Y);
-		C_->rotate(-35, Y);
-		D_->rotate(-35, Y);
+		A_->rotate(30, X);
+		B_->rotate(30, X);
+		C_->rotate(30, X);
+		D_->rotate(30, X);
 
 		shadow[0]->set(A_, B_, C_);
 		shadow[1]->set(A_, B_, D_);
 		shadow[2]->set(D_, B_, C_);
 		shadow[3]->set(A_, D_, C_);
-
-		/*
-		setcolor(2);
-		line(S->x(), S->y(), A_->x(), A_->y());
-
-		setcolor(3);
-		line(S->x(), S->y(), B_->x(), B_->y());
-
-		setcolor(4);
-		line(S->x(), S->y(), C_->x(), C_->y());
-
-		setcolor(5);
-		line(S->x(), S->y(), D_->x(), D_->y());*/
 
 	}
 
@@ -220,7 +198,7 @@ class piramida
 	{
 		upd_shadow();
 		for (int i = 0; i < 4; i++)
-			shadow[i]->draw();
+			shadow[i]->draw(i);
 	}
 
 public:
@@ -238,7 +216,7 @@ public:
 		B = new point(n2, _c0);  B->set(300, 10, 200, 1);
 		C = new point(n3, _c0);  C->set(500, 350, 400, 1);
 		D = new point(n4, _c0);  D->set(300, 150, 0, 1);
-		S = new point; S->set(200, 50, 200, 1);
+		S = new point; S->set(0, 0, 0, 1);
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -250,8 +228,8 @@ public:
 
 	void paint()
 	{
-		project();
 		draw_shadow();
+		project();
 		painters_alg();
 		unproject();
 	}
@@ -275,7 +253,7 @@ public:
 	{
 		upd_mids();
 		move(-midX, -midY, -midZ);
-			rotate_each(_phi, axis);		
+		rotate_each(_phi, axis);
 		move(midX, midY, midZ);
 	}
 

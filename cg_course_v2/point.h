@@ -37,7 +37,7 @@ class point
 		return res;
 	}
 
-	void rotateX(double _phi){
+	void rotateX(double _phi) {
 		_phi = _phi * 3.1415 / 180;
 
 		double matrix[4][4] = {
@@ -48,7 +48,7 @@ class point
 		multiply(matrix);
 	}
 
-	void rotateY(double _phi){
+	void rotateY(double _phi) {
 		_phi = _phi * 3.1415 / 180;
 
 		double matrix[4][4] = {
@@ -59,7 +59,7 @@ class point
 		multiply(matrix);
 	}
 
-	void rotateZ(double _phi){
+	void rotateZ(double _phi) {
 		_phi = _phi * 3.1415 / 180;
 
 		double matrix[4][4] = {
@@ -105,7 +105,7 @@ public:
 		multiply(matrix);
 	}
 
-	void scale(double _x, double _y, double _z){
+	void scale(double _x, double _y, double _z) {
 		double matrix[4][4] = {
 			_x, 0, 0, 0,
 			0, _y, 0, 0,
@@ -115,9 +115,7 @@ public:
 		multiply(matrix);
 	}
 
-
-
-	void rotate(double _phi, int _axis){
+	void rotate(double _phi, int _axis) {
 		if (_axis == X)
 			rotateX(_phi);
 		if (_axis == Y)
@@ -126,7 +124,7 @@ public:
 			rotateZ(_phi);
 	}
 
-	void printName(bool plusX, bool plusY){
+	void printName(bool plusX, bool plusY) {
 		char message[128];
 		setcolor(c);
 
@@ -145,22 +143,22 @@ public:
 		outtextxy(x() + dx, y() + dy, message);
 	}
 
-	double x(){
+	double x() {
 		return cor[X];
 	}
-	void x(double _x){
+	void x(double _x) {
 		cor[X] = _x;
 	}
-	double y(){
+	double y() {
 		return cor[Y];
 	}
-	void y(double _y){
+	void y(double _y) {
 		cor[Y] = _y;
 	}
-	double z(){
+	double z() {
 		return cor[Z];
 	}
-	void z(double _z){
+	void z(double _z) {
 		cor[Z] = _z;
 	}
 };

@@ -6,11 +6,11 @@
 
 class tri_plane
 {
-	point* A, *B, *C;
+	point* A, * B, * C;
 
 	int fill_color;
 
-	void color(float _xs, float _ys, float _x2, float _y2, float _x3, float _y3, int color)
+	void color(float _xs, float _ys, float _x2, float _y2, float _x3, float _y3, int color, int _i)
 	{
 		setcolor(color);
 		float xs = 0, ys = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0;
@@ -46,6 +46,7 @@ class tri_plane
 					xs = _x3; ys = _y3; x2 = _x2;  y2 = _y2; x3 = _xs;  y3 = _ys;
 				}
 		}
+
 
 		float y1d, y2d;
 		float point = xs--;
@@ -85,7 +86,7 @@ class tri_plane
 		}
 	}
 
-	
+
 public:
 
 	void print()
@@ -106,7 +107,7 @@ public:
 		}
 	}
 
-	tri_plane( int fc){
+	tri_plane(int fc) {
 		A = new point;
 		B = new point;
 		C = new point;
@@ -114,26 +115,26 @@ public:
 		fill_color = fc;
 	}
 
-	void set(point* p1, point* p2, point* p3){
+	void set(point* p1, point* p2, point* p3) {
 		A = p1;
 		B = p2;
-		C = p3;	
+		C = p3;
 	}
 
 
-	int midX(){
+	int midX() {
 		int sum = 0;
 		for (int i = 0; i < 3; i++)
 			sum += get(i)->x();
-		
+
 		return (sum / 3);
 	}
 
-	int midY(){
+	int midY() {
 		int sum = 0;
 		for (int i = 0; i < 3; i++)
 			sum += get(i)->y();
-		
+
 		return (sum / 3);
 	}
 
@@ -171,9 +172,9 @@ public:
 		}
 	}
 
-	void draw()
+	void draw(int _i)
 	{
-		color(A->x(), A->y(), B->x(), B->y(), C->x(), C->y(), fill_color);
+		color(A->x(), A->y(), B->x(), B->y(), C->x(), C->y(), fill_color, _i);
 	}
 
 };
